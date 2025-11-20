@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.XR.Interaction.Toolkit;
@@ -9,11 +10,19 @@ public class XRGrabSword : XRBaseInteractable
     public Rigidbody swordRb;
     public Rigidbody followTarget;
 
+    public float attackThreshold = 6f;
+
     protected override void Awake()
     {
         base.Awake();
         joint = GetComponent<ConfigurableJoint>();
         swordRb = GetComponent<Rigidbody>();
+    }
+
+    private void Update()
+    {
+        float speed = swordRb.linearVelocity.magnitude;
+        Debug.Log(speed);
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)
@@ -83,5 +92,26 @@ public class XRGrabSword : XRBaseInteractable
         swordRb.linearVelocity = Vector3.zero;
         swordRb.angularVelocity = Vector3.zero;
     }
+    private void OnCollisionEnter(Collision collision)
+    {
+        float speed = swordRb.linearVelocity.magnitude;
+    
+        if (speed > attackThreshold)
+        {
+            if (collision.gameObject.CompareTag("Enemy"))
+            {
+                BattleManager.Instance.Attack(5);
+                StartCoroutine(GhostThrough());
+            }
+        }
+    }
 
+    private IEnumerator GhostThrough()
+    {
+        GetComponent<Collider>().isTrigger = true;
+        
+        yield return new WaitForSeconds(0.2f);
+        
+        GetComponent<Collider>().isTrigger = false;
+    }
 }
