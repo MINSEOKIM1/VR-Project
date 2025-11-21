@@ -4,8 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(Collider))]
 public class MushroomGlow : MonoBehaviour
 {
-    [Header("Trigger or Collision")]
-    [SerializeField] bool useTrigger = true;
+    [Header("Reaction Filter (Optional)")]
+    [SerializeField] bool useLayerFilter = false;
     [SerializeField] LayerMask reactLayers = ~0;
 
     [Header("Emission")]
@@ -23,33 +23,32 @@ public class MushroomGlow : MonoBehaviour
     Renderer[] rends;
     MaterialPropertyBlock mpb;
     Coroutine pulseCo;
-    
-    void Start()
-    {
-        TriggerGlow();
-    }
 
-    void Reset()
-    {
-        var col = GetComponent<Collider>();
-        if (col) useTrigger = col.isTrigger;
-    }
+    [Header("Trigger Limit")]
+    [SerializeField] bool useTriggerCooldown = true;
+    [SerializeField] float minTriggerInterval = 1.0f;
+
+    float lastTriggerTime = -999f;
 
     void Awake()
     {
-        EnsureKinematicRigidbody();
-
         rends = GetComponentsInChildren<Renderer>(true);
         mpb = new MaterialPropertyBlock();
 
         foreach (var r in rends)
         {
             if (!r) continue;
+
             r.GetPropertyBlock(mpb);
             mpb.SetColor(EmissionColorID, baseEmission);
             r.SetPropertyBlock(mpb);
-            foreach (var m in r.sharedMaterials.Where(m => m != null))
-                m.EnableKeyword("_EMISSION");
+
+            var mat = r.material;
+            if (mat != null)
+            {
+                mat.EnableKeyword("_EMISSION");
+                mat.SetColor(EmissionColorID, baseEmission);
+            }
         }
 
         if (pulseLight)
@@ -59,38 +58,39 @@ public class MushroomGlow : MonoBehaviour
         }
     }
 
-    void EnsureKinematicRigidbody()
-    {
-        var rb = GetComponent<Rigidbody>();
-        if (!rb) rb = gameObject.AddComponent<Rigidbody>();
-
-        rb.useGravity = false;
-        rb.isKinematic = true;
-        rb.collisionDetectionMode = CollisionDetectionMode.Discrete;
-        rb.constraints = RigidbodyConstraints.FreezeAll;
-    }
-
     bool IsInReactLayers(GameObject other)
     {
+        if (!useLayerFilter) return true;
         return (reactLayers.value & (1 << other.layer)) != 0;
     }
 
     void OnTriggerEnter(Collider other)
     {
-        if (!useTrigger) return;
+        if (!IsInReactLayers(other.gameObject)) return;
         TriggerGlow();
     }
 
     void OnCollisionEnter(Collision other)
     {
-        Debug.Log($"[Mushroom] CollisionEnter with {other.gameObject.name}, layer={LayerMask.LayerToName(other.gameObject.layer)}, contacts={other.contactCount}");
-        if (useTrigger) return;
-        if (IsInReactLayers(other.collider.gameObject))
-            TriggerGlow();
+        Debug.Log($"[Mushroom] CollisionEnter with {other.gameObject.name}, " +
+                  $"layer={LayerMask.LayerToName(other.gameObject.layer)}, contacts={other.contactCount}");
+        if (other.gameObject.layer == LayerMask.NameToLayer("Terrain"))
+            return;
+        if (!IsInReactLayers(other.collider.gameObject)) return;
+        TriggerGlow();
     }
 
     void TriggerGlow()
     {
+        if (useTriggerCooldown)
+        {
+            if (Time.time - lastTriggerTime < minTriggerInterval)
+            {
+                return;
+            }
+
+            lastTriggerTime = Time.time;
+        }
         if (pulseCo != null) StopCoroutine(pulseCo);
         pulseCo = StartCoroutine(GlowPulse());
     }
@@ -127,9 +127,17 @@ public class MushroomGlow : MonoBehaviour
         foreach (var r in rends)
         {
             if (!r) continue;
+
             r.GetPropertyBlock(mpb);
             mpb.SetColor(EmissionColorID, c);
             r.SetPropertyBlock(mpb);
+
+            var mat = r.material;
+            if (mat != null)
+            {
+                mat.SetColor(EmissionColorID, c);
+                mat.EnableKeyword("_EMISSION");
+            }
         }
     }
 
