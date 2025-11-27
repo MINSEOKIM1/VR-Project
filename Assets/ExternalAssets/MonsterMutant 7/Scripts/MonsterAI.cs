@@ -13,6 +13,7 @@ public class MonsterAI : MonoBehaviour
     public float attackRange = 2f;
     public float patrolRadius = 20f;
     public float wanderDelay = 3f;
+    public float attackBoundary = 3f;
 
     // Animator parameters
     private readonly int AnimAttack = Animator.StringToHash("Attack");
@@ -94,6 +95,11 @@ public class MonsterAI : MonoBehaviour
 
         while (true)
         {
+            if (isAttacking)
+            {
+                yield return null;
+                continue;
+            }
             if (playerTarget == null)
             {
                 SwitchRoutine(PatrolRoutine());
@@ -128,6 +134,7 @@ public class MonsterAI : MonoBehaviour
     {
         isAttacking = true;
         agent.isStopped = true;
+        agent.SetDestination(transform.position);
 
         // Stop moving + face player
         if (playerTarget != null)
@@ -138,8 +145,10 @@ public class MonsterAI : MonoBehaviour
         }
 
         animator.SetTrigger(AnimAttack);
-
-        yield return new WaitForSeconds(1.5f);
+        
+        yield return new WaitForSeconds(3f);
+        
+        agent.SetDestination(playerTarget.position);
 
         isAttacking = false;
         agent.isStopped = false;
@@ -165,4 +174,14 @@ public class MonsterAI : MonoBehaviour
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(transform.position, attackRange);
     }
+
+    public void CheckAttackBoundary()
+    {
+        if (Vector3.Distance(playerTarget.transform.position, transform.position) < attackBoundary)
+        {
+            BattleManager.Instance.TakeDamage(10);
+        }
+    }
+    
+    
 }
