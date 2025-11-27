@@ -6,7 +6,7 @@ using UnityEngine.XR.Interaction.Toolkit.Interactables;
 public class ShadowGrabHandler : MonoBehaviour
 {
     public XRGrabInteractable grab;
-    public TextMeshPro text;
+    public DogamManager dogamManager;
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
@@ -16,7 +16,7 @@ public class ShadowGrabHandler : MonoBehaviour
 
     private void OnGrab(SelectEnterEventArgs args)
     {
-        text.gameObject.SetActive(true);
+        dogamManager.CollectItem("crystal");
     }
     private void OnRelease(SelectExitEventArgs args) {}
 }
