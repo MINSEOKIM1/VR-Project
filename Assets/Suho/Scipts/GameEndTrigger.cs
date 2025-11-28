@@ -1,8 +1,10 @@
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class GameEndTrigger : MonoBehaviour
 {
-    public EndingUIController endingController;
+    public string endingSceneName = "EndingScene";
+
     bool _ended = false;
 
     void OnTriggerEnter(Collider other)
@@ -34,13 +36,13 @@ public class GameEndTrigger : MonoBehaviour
             };
         }
 
-        if (endingController != null)
+        if (!string.IsNullOrEmpty(endingSceneName))
         {
-            endingController.ShowEnding(result);
+            SceneManager.LoadScene(endingSceneName);
         }
         else
         {
-            Debug.LogWarning("[GameEndTrigger] No endingController Inspector exists");
+            Debug.LogError("[GameEndTrigger] endingSceneName is empty");
         }
 
     }

@@ -68,6 +68,15 @@ public class EndingUIController : MonoBehaviour
     void OnClickRestart()
     {
         Debug.Log("[EndingUI] Restart button clicked!");
+
+        if (GameManager.Instance != null)
+        {
+            GameManager.Instance.StartRun(
+                GameManager.Instance.defaultTotalEntries,
+                GameManager.Instance.defaultMaxHP
+            );
+        }
+
         SceneManager.LoadScene(explorationSceneName);
     }
 }
