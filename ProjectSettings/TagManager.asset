@@ -4,7 +4,11 @@
 TagManager:
   serializedVersion: 3
   tags:
+  - ShadowPlane
+  - Environment
+  - Hand
   - Controller
+  - Enemy
   layers:
   - Default
   - TransparentFX
