@@ -118,7 +118,7 @@ public class ColorBubble : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
-        Pop();
+        if (other.gameObject.CompareTag("Player")) Pop();
     }
 
     private void Pop()
@@ -167,7 +167,7 @@ public class ColorBubble : MonoBehaviour
         }
         else
         {
-            Debug.LogWarning("[Bubble] Inner Particle System is null — cannot play.", this);
+            Debug.LogWarning("[Bubble] Inner Particle System is null ï¿½ cannot play.", this);
         }
 
         Destroy(gameObject);

@@ -21,8 +21,8 @@ public class LockAngleVisibility : MonoBehaviour
 
         // Angle between vectors in 2D
         float angle = Vector2.Angle(lockForward2D, toLock2D);
-        print("lockpos2d.x:" + lockForward2D.x);
-        print("lockpos2d.z:" + lockForward2D.y);
+        // print("lockpos2d.x:" + lockForward2D.x);
+        // print("lockpos2d.z:" + lockForward2D.y);
         bool isVisible = angle <= maxAngle;
 
         lockObject.SetActive(isVisible);

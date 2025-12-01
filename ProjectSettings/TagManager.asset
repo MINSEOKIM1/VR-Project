@@ -9,6 +9,7 @@ TagManager:
   - Hand
   - Controller
   - Enemy
+  - Ground
   layers:
   - Default
   - TransparentFX

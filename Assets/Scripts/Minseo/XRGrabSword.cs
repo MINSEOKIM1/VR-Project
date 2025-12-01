@@ -22,7 +22,7 @@ public class XRGrabSword : XRBaseInteractable
     private void Update()
     {
         float speed = swordRb.linearVelocity.magnitude;
-        Debug.Log(speed);
+        // Debug.Log(speed);
     }
 
     protected override void OnSelectEntered(SelectEnterEventArgs args)

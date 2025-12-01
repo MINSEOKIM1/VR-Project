@@ -162,12 +162,12 @@ MonoBehaviour:
   explosionLifetime: 3
   innerParticleSystem: {fileID: 5413453566483831602}
   innerParticleExtraLifetime: 3
-  minHue: 0.1
-  maxHue: 0.4
-  minSaturation: 0.7
+  minHue: 1
+  maxHue: 1
+  minSaturation: 1
   maxSaturation: 1
-  minValue: 0.23
-  maxValue: 0.25
+  minValue: 1
+  maxValue: 0.96
   bobSpeedRange: {x: 0.15, y: 0.35}
   bobAmpRange: {x: 0.03, y: 0.07}
   driftSpeedRange: {x: 0.05, y: 0.12}
