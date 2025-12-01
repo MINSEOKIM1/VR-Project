@@ -53,6 +53,7 @@ public class MonsterAI : MonoBehaviour
             isDeath = true;
             animator.SetTrigger("Death");
             agent.enabled = false;
+            GameManager.Instance.enemyKills++;
             return;
         }
 
