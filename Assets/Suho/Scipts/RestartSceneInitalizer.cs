@@ -14,9 +14,9 @@ public class RestartSceneInitializer : MonoBehaviour
 
         RunResult result = null;
 
-        if (GameManager.Instance != null && GameManager.Instance.CurrentRunResult != null)
+        if (GameManager.Instance != null)
         {
-            result = GameManager.Instance.CurrentRunResult;
+            result = GameManager.Instance.BuildRunResult();
         }
         else
         {

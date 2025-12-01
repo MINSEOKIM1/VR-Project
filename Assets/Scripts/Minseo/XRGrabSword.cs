@@ -29,6 +29,8 @@ public class XRGrabSword : XRBaseInteractable
     {
         base.OnSelectEntered(args);
         
+        DogamManager.Instance.CollectItem("sword");
+        
         transform.position = followTarget.position;
         transform.rotation = followTarget.rotation;
         
@@ -100,7 +102,7 @@ public class XRGrabSword : XRBaseInteractable
         {
             if (collision.gameObject.CompareTag("Enemy"))
             {
-                BattleManager.Instance.Attack(5);
+                BattleManager.Instance.Attack(12, collision.gameObject.GetComponent<MonsterAI>());
                 StartCoroutine(GhostThrough());
             }
         }

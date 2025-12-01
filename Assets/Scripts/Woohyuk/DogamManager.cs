@@ -19,6 +19,8 @@ public class DogamManager : MonoBehaviour
     public Sprite questionMarkSprite; // 미수집 상태 이미지 (?)
     public Image[] itemSlots; // UI에 있는 6개의 이미지 슬롯들
 
+    public static DogamManager Instance;
+
     // 아이템 정보 구조체
     [System.Serializable]
     public struct ItemData
@@ -46,6 +48,16 @@ public class DogamManager : MonoBehaviour
     {
         if (toggleButtonAction.action != null)
             toggleButtonAction.action.Disable();
+    }
+    
+    void Awake()
+    {
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
     }
     private void Start()
     {
@@ -141,13 +153,15 @@ public class DogamManager : MonoBehaviour
     // 예: CollectItem("검");
     public void CollectItem(string name)
     {
+        
         for (int i = 0; i < items.Length; i++)
         {
             if (items[i].itemName == name)
             {
+                if (items[i].isCollected) return;
                 items[i].isCollected = true;
-                Debug.Log(name + " 획득!");
-
+                // Debug.Log(name + " 획득!");
+                GameManager.Instance.collectedEntries++;
                 UpdateUI();
                 break;
             }

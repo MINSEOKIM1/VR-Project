@@ -1133,7 +1133,7 @@ GameObject:
   - component: {fileID: 5738147686716418976}
   m_Layer: 0
   m_Name: RockFracture7
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

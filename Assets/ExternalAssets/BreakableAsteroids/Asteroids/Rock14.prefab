@@ -17,7 +17,7 @@ GameObject:
   - component: {fileID: -3965522769258865751}
   m_Layer: 0
   m_Name: Rock14
-  m_TagString: Untagged
+  m_TagString: Rock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -167,3 +167,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55ef2bcd7452d4f2fbf87541560f000a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::AsteroidController
+  ExplosionRadius: 8
+  ExplosionForce: 500
+  PlayerDamage: 50
+  ExplosionVFX: {fileID: 0}

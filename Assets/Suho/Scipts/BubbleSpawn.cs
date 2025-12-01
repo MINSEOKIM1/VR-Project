@@ -42,10 +42,25 @@ public class BubbleSpawn : MonoBehaviour
         {
             attempts++;
 
-            float x = terrainPos.x + Random.Range(0f, terrainSize.x);
-            float z = terrainPos.z + Random.Range(0f, terrainSize.z);
+            float x = 0;
+            float z = 0;
 
             float y = terrain.SampleHeight(new Vector3(x, 0f, z)) + terrainPos.y;
+            if (terrain != null)
+            {
+                x = terrainPos.x + Random.Range(0f, terrainSize.x);
+                z = terrainPos.z + Random.Range(0f, terrainSize.z);
+
+                y = terrain.SampleHeight(new Vector3(x, 0f, z)) + terrainPos.y;
+            }
+            else
+            {
+                x = transform.position.x + Random.Range(0f, 5f);
+                z = transform.position.z + Random.Range(0f, 5f);
+
+                y = transform.position.y + Random.Range(0f, 1f);
+            }
+
             float yOffset = Random.Range(heightOffsetRange.x, heightOffsetRange.y);
             Vector3 pos = new Vector3(x, y + yOffset, z);
 

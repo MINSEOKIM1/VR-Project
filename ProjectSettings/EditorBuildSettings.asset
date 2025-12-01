@@ -18,11 +18,23 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: bc29cce456b8d45f28993b79cfc5fe95
   - enabled: 1
+    path: Assets/Scenes/MainMenuScene.unity
+    guid: 5e06c4c6604804da4b59611735ef4a68
+  - enabled: 1
+    path: Assets/Scenes/StartScene.unity
+    guid: 430eb7b0cd08f4b428611e7447df7e70
+  - enabled: 1
+    path: Assets/Scenes/EndingScene.unity
+    guid: 1ac13e215cb313f43922cce5a79d8e6c
+  - enabled: 1
+    path: Assets/Scenes/RestartScene.unity
+    guid: 5b584a9269808024e9e22480c80f7492
+  - enabled: 1
     path: Assets/Scenes/Minwoo_Scene.unity
     guid: 17e07a11358204000baf0e6ea43d13d5
   - enabled: 1
-    path: Assets/Scenes/MainMenuScene.unity
-    guid: 5e06c4c6604804da4b59611735ef4a68
+    path: Assets/Scenes/MinseoScene.unity
+    guid: 05afb643596091645b96ece88b14023f
   m_configObjects:
     Unity.XR.Oculus.Settings: {fileID: 11400000, guid: 5e0551b038b453e4f8c21e6d74612aa1, type: 2}
     com.unity.input.settings.actions: {fileID: -944628639613478452, guid: 052faaac586de48259a63d0c4782560b, type: 3}

@@ -71,6 +71,7 @@ public class EndingUIController : MonoBehaviour
 
         if (GameManager.Instance != null)
         {
+            GameManager.Instance.StartRun(GameManager.Instance.defaultTotalEntries, GameManager.Instance.defaultMaxHP);
             GameManager.Instance.StartRun(
                 GameManager.Instance.defaultTotalEntries,
                 GameManager.Instance.defaultMaxHP

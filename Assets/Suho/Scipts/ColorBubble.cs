@@ -125,6 +125,8 @@ public class ColorBubble : MonoBehaviour
     {
         if (popped) return;
         popped = true;
+        
+        DogamManager.Instance.CollectItem("waterdrop");
 
         bubbleRenderers = GetComponentsInChildren<Renderer>(true)
             .Where(r => r.GetComponent<ParticleSystem>() == null)

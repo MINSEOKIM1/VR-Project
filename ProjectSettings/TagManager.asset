@@ -10,6 +10,8 @@ TagManager:
   - Controller
   - Enemy
   - Ground
+  - Key
+  - Rock
   layers:
   - Default
   - TransparentFX

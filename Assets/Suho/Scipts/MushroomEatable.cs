@@ -14,6 +14,8 @@ public class MushroomEatable : MonoBehaviour
     public void Eat()
     {
         if (_eaten) return;
+        
+        DogamManager.Instance.CollectItem("mushroom");
 
         if (grab != null && !grab.isSelected) return;
         _eaten = true;

@@ -15,6 +15,10 @@ public class MonsterAI : MonoBehaviour
     public float wanderDelay = 3f;
     public float attackBoundary = 3f;
 
+    private bool isDeath = false;
+
+    public float hp = 15f;
+
     // Animator parameters
     private readonly int AnimAttack = Animator.StringToHash("Attack");
     private readonly int AnimMoveSpeed = Animator.StringToHash("moveSpeed");
@@ -42,6 +46,15 @@ public class MonsterAI : MonoBehaviour
     void Update()
     {
         if (agent == null || animator == null) return;
+        if (isDeath) return;
+        
+        if (hp <= 0 && !isDeath)
+        {
+            isDeath = true;
+            animator.SetTrigger("Death");
+            agent.enabled = false;
+            return;
+        }
 
         // Use the NavMeshAgent’s current speed (normalized 0–1)
         float speed = agent.velocity.magnitude / agent.speed;
@@ -67,6 +80,7 @@ public class MonsterAI : MonoBehaviour
 
         while (true)
         {
+            if (isDeath) break;
             if (CheckForPlayer())
             {
                 SwitchRoutine(ChaseRoutine());
@@ -95,6 +109,7 @@ public class MonsterAI : MonoBehaviour
 
         while (true)
         {
+            if (isDeath) break;
             if (isAttacking)
             {
                 yield return null;
@@ -135,6 +150,7 @@ public class MonsterAI : MonoBehaviour
         isAttacking = true;
         agent.isStopped = true;
         agent.SetDestination(transform.position);
+        
 
         // Stop moving + face player
         if (playerTarget != null)
@@ -179,9 +195,7 @@ public class MonsterAI : MonoBehaviour
     {
         if (Vector3.Distance(playerTarget.transform.position, transform.position) < attackBoundary)
         {
-            BattleManager.Instance.TakeDamage(10);
+            BattleManager.Instance.TakeDamage(13);
         }
     }
-    
-    
 }

@@ -76,6 +76,8 @@ public class GameManager : MonoBehaviour
 
         int score = 0;
 
+        if (currentHP <= 0) currentHP = 0;
+
         float entryRate = totalEntries > 0
             ? (float)collectedEntries / totalEntries
             : 0f;
@@ -97,13 +99,13 @@ public class GameManager : MonoBehaviour
         else if (clearTime <= 600f) score += 10;
         else score += 5;
 
-        score += enemyKills * 10;
+        score += enemyKills * 50;
 
         string rank;
-        if (score >= 100) rank = "S";
-        else if (score >= 70) rank = "A";
-        else if (score >= 50) rank = "B";
-        else if (score >= 30) rank = "C";
+        if (score >= 200) rank = "S";
+        else if (score >= 150) rank = "A";
+        else if (score >= 100) rank = "B";
+        else if (score >= 60) rank = "C";
         else rank = "D";
 
         var result = new RunResult

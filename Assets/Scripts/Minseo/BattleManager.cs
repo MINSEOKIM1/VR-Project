@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class BattleManager : MonoBehaviour
@@ -12,6 +13,10 @@ public class BattleManager : MonoBehaviour
     public int hp;
     public int maxHp;
 
+    public string restartScene;
+
+    public GameObject alertUI;
+    
     private void Awake()
     {
         if (Instance != null)
@@ -26,11 +31,41 @@ public class BattleManager : MonoBehaviour
     public void TakeDamage(int damage)
     {
         hp -= damage;
+        GameManager.Instance.currentHP = hp;
         StartCoroutine(HitPanelEffect());
+
+        if (hp <= maxHp * 0.3f && !alertUI.activeSelf)
+        {
+            StartCoroutine(AlertUI());
+        }
+
+        if (hp <= 0)
+        {
+            SceneManager.LoadScene(restartScene);
+        }
     }
 
-    public void Attack(int damage)
+    IEnumerator AlertUI()
     {
+        var cg = alertUI.GetComponent<CanvasGroup>();
+        cg.alpha = 1;
+        alertUI.SetActive(true);
+        
+        yield return new WaitForSeconds(1.5f);
+        
+        float alpha = 1f;
+        while (alpha > 0f)
+        {
+            alpha -= Time.deltaTime;
+            cg.alpha = alpha;
+            yield return null;
+        }
+        alertUI.SetActive(false);
+    }
+
+    public void Attack(int damage, MonsterAI monster)
+    {
+        monster.hp -= damage;
         StartCoroutine(AttackPanelEffect());
     }
 

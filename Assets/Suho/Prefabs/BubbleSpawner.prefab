@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6237500426291243218}
   - component: {fileID: 5602708992031671238}
+  - component: {fileID: 7091346386788682158}
   m_Layer: 0
   m_Name: BubbleSpawner
   m_TagString: Untagged
@@ -45,9 +46,36 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BubbleSpawn
   terrain: {fileID: 0}
-  bubblePrefab: {fileID: 0}
-  bubbleCount: 100
+  bubblePrefab: {fileID: 4572414103161538683, guid: db5400340a50f0c4886ef122bb26fb99, type: 3}
+  bubbleCount: 13
   minDistance: 1.5
   heightOffsetRange: {x: 0.3, y: 0.6}
   scaleRange: {x: 0.8, y: 1.2}
   randomYawRotation: 1
+--- !u!54 &7091346386788682158
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1890274110587052913}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
