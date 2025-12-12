@@ -26,6 +26,8 @@ public class MonsterAI : MonoBehaviour
     private bool isAttacking = false;
     private Vector3 initialPosition;
     private Coroutine currentRoutine;
+    
+    private int timeRandomly;
 
     void Awake()
     {
@@ -36,6 +38,37 @@ public class MonsterAI : MonoBehaviour
 
         agent.stoppingDistance = attackRange;
         animator.applyRootMotion = false;
+        
+        timeRandomly = Random.Range(5, 25);
+
+        StartCoroutine(Growling());
+    }
+
+    public AudioClip growlingClip;
+    public AudioClip battleClip;
+    IEnumerator Growling()
+    {
+        while (true)
+        {
+            yield return new WaitForSeconds(30 + Random.Range(-5, 5));
+            
+            if (isDeath) break;
+            if (CheckForPlayer()) break;
+            
+            GetComponent<AudioSource>().PlayOneShot(growlingClip);
+            
+        }
+    }
+    
+    IEnumerator BattleGrowling()
+    {
+        while (true)
+        {
+            if (isDeath) break;
+            if (!CheckForPlayer()) break;
+            GetComponent<AudioSource>().PlayOneShot(battleClip);
+            yield return new WaitForSeconds(8 + Random.Range(-5, 5));
+        }
     }
 
     void Start()
@@ -85,6 +118,7 @@ public class MonsterAI : MonoBehaviour
             if (CheckForPlayer())
             {
                 SwitchRoutine(ChaseRoutine());
+                StartCoroutine(BattleGrowling());
                 yield break;
             }
 
