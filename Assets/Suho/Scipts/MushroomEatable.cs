@@ -6,6 +6,10 @@ public class MushroomEatable : MonoBehaviour
     UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable grab;
     bool _eaten = false;
 
+    [Header("Sound")]
+    [SerializeField] private AudioClip eatClip;
+    [Range(0f, 1f)] public float eatVolume = 1f;
+
     void Awake()
     {
         grab = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
@@ -20,8 +24,15 @@ public class MushroomEatable : MonoBehaviour
         if (grab != null && !grab.isSelected) return;
         _eaten = true;
 
-        //TODO: Eating Sound
+        PlayEatAudio();
 
         Destroy(gameObject);
+    }
+
+    void PlayEatAudio()
+    {
+        if (eatClip == null) return;
+
+        AudioSource.PlayClipAtPoint(eatClip, transform.position, eatVolume);
     }
 }

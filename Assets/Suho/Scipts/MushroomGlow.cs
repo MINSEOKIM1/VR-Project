@@ -19,6 +19,11 @@ public class MushroomGlow : MonoBehaviour
     public float lightMaxIntensity = 6f;
     public float lightRadius = 2.5f;
 
+    [Header("Sound")]
+    [SerializeField] private AudioSource audioSource;
+    [SerializeField] private AudioClip glowClip;
+    [Range(0f, 1f)] public float glowVolume = 1f;
+
     static readonly int EmissionColorID = Shader.PropertyToID("_EmissionColor");
     Renderer[] rends;
     MaterialPropertyBlock mpb;
@@ -56,6 +61,17 @@ public class MushroomGlow : MonoBehaviour
             pulseLight.intensity = 0f;
             pulseLight.range = lightRadius;
         }
+        if (audioSource == null)
+            audioSource = GetComponent<AudioSource>();
+
+        if (audioSource == null)
+            audioSource = gameObject.AddComponent<AudioSource>();
+
+        audioSource.playOnAwake = false;
+        audioSource.spatialBlend = 1f;
+        audioSource.minDistance = 0.5f;
+        audioSource.maxDistance = 10f;
+
     }
 
     bool IsInReactLayers(GameObject other)
@@ -91,8 +107,21 @@ public class MushroomGlow : MonoBehaviour
 
             lastTriggerTime = Time.time;
         }
+
+        PlayGlowAudio();
+
         if (pulseCo != null) StopCoroutine(pulseCo);
         pulseCo = StartCoroutine(GlowPulse());
+    }
+
+    void PlayGlowAudio()
+    {
+        if (glowClip == null) return;
+
+        if (audioSource != null)
+            audioSource.PlayOneShot(glowClip, glowVolume);
+        else
+            AudioSource.PlayClipAtPoint(glowClip, transform.position, glowVolume);
     }
 
     System.Collections.IEnumerator GlowPulse()
