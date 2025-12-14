@@ -5,8 +5,10 @@ public class BreakablePot : MonoBehaviour
     [SerializeField] private float breakThreshold = 5f; 
     [SerializeField] private GameObject brokenPrefab;  
     [SerializeField] private GameObject[] itemsFromPot;  
-    [SerializeField] private AudioClip breakSound;     
+    [SerializeField] private AudioClip breakSound;
 
+    public int pathGuidenum = -1;
+    
     private bool isBroken = false;
 
     private void OnCollisionEnter(Collision collision)
@@ -26,6 +28,7 @@ public class BreakablePot : MonoBehaviour
         isBroken = true;
         
         DogamManager.Instance.CollectItem("pottery");
+        if (pathGuidenum != -1) GuidanceSystem.Instance.DoneWithItem(pathGuidenum);
 
         if (brokenPrefab != null)
         {

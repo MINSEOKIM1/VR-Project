@@ -10,6 +10,8 @@ public class MushroomEatable : MonoBehaviour
     [SerializeField] private AudioClip eatClip;
     [Range(0f, 1f)] public float eatVolume = 1f;
 
+    public int pathGuidenum = 7;
+
     void Awake()
     {
         grab = GetComponent<UnityEngine.XR.Interaction.Toolkit.Interactables.XRGrabInteractable>();
@@ -20,6 +22,7 @@ public class MushroomEatable : MonoBehaviour
         if (_eaten) return;
         
         DogamManager.Instance.CollectItem("mushroom");
+        if (pathGuidenum != -1) GuidanceSystem.Instance.DoneWithItem(pathGuidenum);
 
         if (grab != null && !grab.isSelected) return;
         _eaten = true;

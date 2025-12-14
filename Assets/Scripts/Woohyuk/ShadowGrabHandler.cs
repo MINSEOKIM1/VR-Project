@@ -17,6 +17,7 @@ public class ShadowGrabHandler : MonoBehaviour
     private void OnGrab(SelectEnterEventArgs args)
     {
         dogamManager.CollectItem("crystal");
+        GuidanceSystem.Instance.DoneWithItem(5);
     }
     private void OnRelease(SelectExitEventArgs args) {}
 }

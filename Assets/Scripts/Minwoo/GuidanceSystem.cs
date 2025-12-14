@@ -1,3 +1,7 @@
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using UnityEditor.Build;
 using UnityEngine;
 
 public class GuidanceSystem : MonoBehaviour
@@ -5,12 +9,17 @@ public class GuidanceSystem : MonoBehaviour
     public Transform startPoint;
     public Transform targetObject;
     public GameObject pathCylinder;
+
+    public GameObject[] hints;
+    public Dictionary<GameObject, bool> gameObjects;
     
     public float pathWidth = 5f;
     
     public float activationRange = 10f;
     
     private Renderer pathRenderer;
+    
+    public static GuidanceSystem Instance;
 
     void Start()
     {
@@ -21,14 +30,65 @@ public class GuidanceSystem : MonoBehaviour
             startPoint = Camera.main.transform;
         }
 
+        gameObjects = new Dictionary<GameObject, bool>();
+        foreach (GameObject hint in hints)
+        {
+            gameObjects.Add(hint, false);
+        }
+
+        if (Instance != null && Instance != this)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        Instance = this;
+        
         pathCylinder.SetActive(false);
+        StartCoroutine(FindNextPath());
+    }
+
+    IEnumerator FindNextPath()
+    {
+        while (true)
+        {
+            float min = Mathf.Infinity;
+            float tmp = 0;
+            GameObject closest = null;
+            
+            foreach (GameObject a in hints)
+            {
+                if (a == null) continue; 
+                if (!gameObjects[a] && (tmp = Vector3.Distance(startPoint.position, a.transform.position)) < min)
+                {
+                    min = tmp;
+                    closest = a;
+                }
+            }
+
+            if (closest != null)
+            {
+                targetObject = closest.transform;
+            }
+            else
+            {
+                targetObject = null;
+            }
+
+            yield return new WaitForSeconds(5f);
+        }
+    }
+
+    public void DoneWithItem(int n)
+    {
+        gameObjects[hints[n]] = true;
     }
 
     void Update()
     {
+        if (targetObject == null) return;
         float distance = Vector3.Distance(startPoint.position, targetObject.position);
 
-        bool shouldBeVisible = distance <= activationRange;
+        bool shouldBeVisible = distance <= activationRange && targetObject != null;
         
         if (shouldBeVisible && !pathCylinder.activeSelf)
         {

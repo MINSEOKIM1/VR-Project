@@ -30,6 +30,7 @@ public class XRGrabSword : XRBaseInteractable
         base.OnSelectEntered(args);
         
         DogamManager.Instance.CollectItem("sword");
+        GuidanceSystem.Instance.DoneWithItem(4);
         
         transform.position = followTarget.position;
         transform.rotation = followTarget.rotation;
