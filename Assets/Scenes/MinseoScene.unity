@@ -9387,7 +9387,7 @@ MonoBehaviour:
   hitPanel: {fileID: 225646744}
   hp: 100
   maxHp: 100
-  restartScene: RestartScene
+  restartScene: Scenes/RestartScene
   alertUI: {fileID: 1749535556}
 --- !u!4 &1323145879
 Transform:

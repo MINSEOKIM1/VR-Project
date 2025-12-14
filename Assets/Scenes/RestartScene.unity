@@ -165,7 +165,7 @@ PrefabInstance:
       objectReference: {fileID: 1278065887}
     - target: {fileID: 7598331365664627083, guid: 675d6947cd8d18a4785bf1663c92b23f, type: 3}
       propertyPath: explorationSceneName
-      value: StartScene
+      value: Scenes/StartScene
       objectReference: {fileID: 0}
     - target: {fileID: 8264201603023891936, guid: 675d6947cd8d18a4785bf1663c92b23f, type: 3}
       propertyPath: m_LocalPosition.x

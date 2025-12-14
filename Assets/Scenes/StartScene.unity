@@ -5534,7 +5534,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::IntroCutsceneController
   shipAnimator: {fileID: 996738269}
-  nextSceneName: MinseoScene
+  nextSceneName: Scenes/MinseoScene
   delayAfterLanding: 1
   fadeCanvas: {fileID: 1637490000}
 --- !u!95 &996738269
